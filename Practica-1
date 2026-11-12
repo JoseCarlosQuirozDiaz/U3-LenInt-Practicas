@@ -1,0 +1,33 @@
+; Materia:       Lenguaje de Interfaz
+; Nombre:        Jose Carlos Quiroz Diaz
+; Horario:       9-10
+; Docente:       José Luis Medina Jiménez
+INCLUDE Irvine32.inc
+.data
+	mensajeInicio BYTE "Inicio de programa",0
+	mensajeProcedimiento BYTE "Estoy dentro del procedimiento", 0
+	mensajeFin BYTE "Fin del programa", 0
+.code
+main PROC
+	mov edx, OFFSET mensajeInicio
+	call WriteString
+	call crlf
+	;primera llamada
+	call mesajeAviso
+	;segunda llamada
+	mov eac,10
+	call mensajeAviso
+	mov eax,20
+	mov edx, OFFSET mensajeFin
+	call WriteString
+	call Crlf
+	exit
+	main ENDP
+	END main
+	mensajeAviso PROC
+		mov edx, OFFSET mensajeProcedimiento
+		call WriteString
+		call crlf
+		ret
+	mensajeAviso ENDP
+	END main

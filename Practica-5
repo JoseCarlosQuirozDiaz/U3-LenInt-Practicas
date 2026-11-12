@@ -1,0 +1,20 @@
+; Materia:       Lenguaje de Interfaz
+; Nombre:        Jose Carlos Quiroz Diaz
+; Horario:       9-10
+; Docente:       José Luis Medina Jiménez
+INCLUDE Irvine32.inc
+MostrarMensaje MACRO TEXTO 
+	mov edx, OFFSET texto
+	call WriteString
+	call Crlf
+ENDM
+.data
+mensajeBienvenida BYTE "BIENVENIDO AL SISTEMA DE INVENTARIO",0
+mensajeFin BYTE "HASTA LUEGO, VUELVA PRONTO",0
+.code
+main PROC
+	MostrarMensaje mensajeBienvenida
+	MostrarMensaje mensajeFin
+	exit
+main ENDP
+END main

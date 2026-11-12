@@ -1,0 +1,51 @@
+; Materia:       Lenguaje de Interfaz
+; Nombre:        Jose Carlos Quiroz Diaz
+; Horario:       9-10
+; Docente:       José Luis Medina Jiménez
+INCLUDE Irvine32.inc
+.data
+    prompt    BYTE "Ingresa una cadena (o presiona Enter para dejarla vacia): ", 0
+    cadena    BYTE 100 DUP(0)  
+    msgVacia  BYTE "Resultado: 0 - La cadena esta vacia.", 0dh, 0ah, 0
+    msgLlena  BYTE "Resultado: 1 - La cadena tiene algo.", 0dh, 0ah, 0
+.code
+main PROC
+    ; Leer la cadena desde el teclado para no tener que cambiar el codigo
+    mov edx, OFFSET prompt
+    call WriteString
+    mov edx, OFFSET cadena
+    mov ecx, SIZEOF cadena
+    call ReadString
+    ; Pasar la cadena al procedimiento
+    mov edx, OFFSET cadena
+    call ValidarCadena
+    ; Evaluar lo que devolvio el procedimiento en EAX
+    cmp eax, 0
+    je EsVacia
+    ; Si EAX es 1
+    mov edx, OFFSET msgLlena
+    call WriteString
+    jmp Fin
+EsVacia:
+    ; Si EAX es 0
+    mov edx, OFFSET msgVacia
+    call WriteString
+Fin:
+    exit
+main ENDP
+; ---------------------------------------------------------
+; ValidarCadena
+; Recibe: EDX apuntando a la cadena
+; Devuelve: EAX = 1 (tiene algo), EAX = 0 (esta vacia)
+; ---------------------------------------------------------
+ValidarCadena PROC
+    mov al, [edx]       ; Leer el primer byte
+    cmp al, 0           ; Si el primer byte es 0, no se escribio nada
+    je CadenaVacia
+    mov eax, 1          ; Tiene contenido
+    ret
+CadenaVacia:
+    mov eax, 0          ; Esta vacia
+    ret
+ValidarCadena ENDP
+END main
